@@ -19,6 +19,9 @@ export const ui = $state({
 
   /** Feedback benar/salah — { benar: boolean, pesan: string } atau null. */
   feedback: null,
+
+  /** Soal pilihan ganda aktif — { idSoal, penanya?, pertanyaan, opsi: [{id, teks, benar, feedback?}], feedbackBenar?, feedbackSalah? } atau null. */
+  quiz: null,
 });
 
 /** Reset semua overlay (dipakai saat pindah scene). */
@@ -26,4 +29,5 @@ export function resetOverlay() {
   ui.dialog = null;
   ui.materi = null;
   ui.feedback = null;
+  ui.quiz = null;
 }

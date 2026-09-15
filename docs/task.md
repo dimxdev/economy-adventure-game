@@ -34,12 +34,12 @@
 - [x] Implement logika **resume**: `tentukanTujuanAwal()` + BootScene
 - [x] Uji: selesaikan sebagian, reload browser, lanjut dari titik terakhir
 
-**Tambahan baru (sistem poin — PROJECT.md §5.2-§5.4), belum dikerjakan:**
-- [ ] Tabel Dexie baru `soalHasil` (atau serupa): `id_soal` (unik per level+indikator), `jumlah_percobaan`, `poin_diperoleh` (10/5/0), `indikator_terkait` (1-7), `teks_refleksi_bebas` (opsional, string, tidak memengaruhi skor)
-- [ ] Fungsi di `services/progress.js`: `catatJawaban(id_soal, { benar, indikator, refleksi })` — increment `jumlah_percobaan`, hitung poin (10 di percobaan ke-1, 5 di percobaan ≥2, 0 kalau belum pernah benar), simpan
-- [ ] Fungsi `getSkorSummary()`: hitung `total_skor` + `skor_per_indikator` (breakdown 7 indikator) dari tabel `soalHasil` — dipakai layar ending (FASE 11)
-- [ ] Uji: jawab salah 2x lalu benar pada 1 soal → poin tercatat 5, bukan 10 atau 0
-- [ ] ⚠️ **Perlu ditinjau ulang saat masuk fase level masing-masing:** mapping indikator per level yang sudah ada di kode (`src/data/levels.js`, field `indikator` tiap entri) memakai urutan/isi LAMA dan tidak sesuai lagi dengan tabel mapping baru di PROJECT.md §5.1. Jangan diubah sekarang — sesuaikan saat mengerjakan FASE level yang bersangkutan.
+**Tambahan baru (sistem poin — PROJECT.md §5.2-§5.4):**
+- [x] Tabel Dexie baru `soalHasil`: `idSoal` (unik per level+soal, PK), `jumlahPercobaan`, `poinDiperoleh` (10/5/0), `indikator`, `refleksi` (opsional, tidak memengaruhi skor) — `db.js` v2
+- [x] Fungsi di `services/progress.js`: `catatJawaban(idSoal, { level, indikator, benar, refleksi })` — increment `jumlahPercobaan`, hitung poin (10 di percobaan ke-1, 5 di percobaan ≥2, 0 kalau belum pernah benar), simpan
+- [x] Fungsi `getSkorSummary()`: hitung `totalSkor` + `skorPerIndikator` (breakdown 7 indikator) dari tabel `soalHasil` — dipakai layar ending (FASE 11)
+- [x] Uji: jawab salah lalu benar pada 1 soal → poin tercatat 5, bukan 10 atau 0 (diverifikasi di Level 1 — FASE 4)
+- [x] Mapping indikator Level 1 di `src/data/levels.js` disesuaikan ke PROJECT.md §5.1 (`[MENAFSIRKAN, MEMBERI_CONTOH]`). Level 2-4 masih lama, menyusul saat FASE masing-masing.
 
 ---
 
@@ -65,20 +65,19 @@
 
 ---
 
-## FASE 4 — Level 1: Misi Pengamatan
+## FASE 4 — Level 1: Misi Pengamatan ✅
 
-> ⚠️ Revisi total mengikuti PROJECT.md §4 Level 1. Belum ada kode level-spesifik yang ditulis (Level1Scene masih stub generik dari FASE 3), jadi tidak ada rework — langsung ikuti spek baru ini.
-
-- [ ] **Level1Scene**: pasang background (`bg_level1_desa`), 4 tokoh yang bisa diklik: **Pak Tono** (petani), **Bu Sinta** (pedagang), **Pak Rudi** (kurir — baru), **Ani** (pembeli — baru). Tanpa objek truk/pabrik terpisah.
-- [ ] Tambahkan **Pak Ali** sebagai lawan bicara dialog Zara sepanjang level (bukan objek diamati — pemandu tanya-jawab)
-- [ ] Misi 1 — Amati: klik tiap tokoh (berulang) → narasi aktivitas (teks persis PROJECT.md §4)
-- [ ] Indikator 1 (Menafsirkan): 1 soal pilihan ganda 4 opsi (aktivitas Pak Tono) + feedback benar/salah + retry mengarahkan eksplor ulang
-- [ ] Indikator 2 (Memberikan contoh): 2 soal pilihan ganda berurutan (contoh distribusi, contoh konsumsi) + feedback spesifik per opsi salah
-- [ ] Dialog penutup Pak Ali
-- [ ] Simpan hasil tiap soal via `catatJawaban()` (indikator 1 & 2) + `markLevelComplete('level1')`
-- [ ] Data konten (narasi tokoh, soal, opsi, feedback) ke `src/data/level1.js`
-- [ ] **Tidak ada** drag & drop kategori di level ini (sudah pindah ke Level 2 — FASE 5)
-- [ ] Uji lengkap Level 1 end-to-end (termasuk uji poin 10/5/0 per soal)
+- [x] **Level1Scene**: pasang background (`bg_level1`), 4 tokoh yang bisa diklik: **Pak Tono** (petani), **Bu Sinta** (pedagang), **Pak Rudi** (kurir — baru), **Ani** (pembeli — baru). Tanpa objek truk/pabrik terpisah.
+- [x] Tambahkan **Pak Ali** sebagai lawan bicara dialog Zara sepanjang level (bukan objek diamati — pemandu tanya-jawab, dialog-only)
+- [x] Misi 1 — Amati: klik tiap tokoh (berulang) → narasi aktivitas (teks persis PROJECT.md §4)
+- [x] Indikator 1 (Menafsirkan): 1 soal pilihan ganda 4 opsi (aktivitas Pak Tono) + feedback benar/salah + retry mengarahkan eksplor ulang (wajib klik ≥1 tokoh lagi sebelum tombol Lanjut aktif)
+- [x] Indikator 2 (Memberikan contoh): 2 soal pilihan ganda berurutan (contoh distribusi, contoh konsumsi) + feedback spesifik per opsi salah + dialog pembuka Pak Ali→Zara sebelum soal pertama
+- [x] Dialog penutup Pak Ali
+- [x] Simpan hasil tiap soal via `catatJawaban()` (indikator menafsirkan & memberi-contoh) + `markLevelComplete('level1')`
+- [x] Data konten (narasi tokoh, soal, opsi, feedback) ke `src/data/level1.js`
+- [x] **Tidak ada** drag & drop kategori di level ini (sudah pindah ke Level 2 — FASE 5)
+- [x] Komponen baru **QuizPanel.svelte** (pilihan ganda reusable, dipakai lagi di level lain) + event `show-quiz`/`ui:submit-quiz` di eventBridge
+- [x] Uji lengkap Level 1 end-to-end di browser: alur amati → soal1 (salah→amati ulang→benar, 5 poin) → soal2a (benar langsung, 10 poin) → soal2b (salah→benar, 5 poin) → penutup → `markLevelComplete` → lanjut scene. Total 20 poin tercatat benar, nol error console.
 
 ---
 

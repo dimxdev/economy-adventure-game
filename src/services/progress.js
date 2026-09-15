@@ -118,11 +118,74 @@ export async function getAssessmentSummary() {
   return summary;
 }
 
+// --- Sistem poin per soal (PROJECT.md §5.2-§5.4) --------------------------
+
+/**
+ * Catat 1 kali submit jawaban untuk 1 soal, hitung poin sesuai aturan:
+ *  - benar di percobaan ke-1        → 10 poin
+ *  - benar di percobaan ke-2+       → 5 poin
+ *  - belum pernah benar             → 0 poin
+ * Idempoten terhadap poin: begitu soal pernah terjawab benar, submit berikutnya
+ * (seharusnya tidak terjadi dari UI normal) tidak mengubah poin yang sudah didapat.
+ *
+ * @param {string} idSoal - unik per level+soal, mis. 'l1-indikator1-paktono'
+ * @param {{ level: string, indikator: string, benar: boolean, refleksi?: string }} p
+ * @returns {Promise<{ jumlahPercobaan: number, poinDiperoleh: number, benarAkhir: boolean }>}
+ */
+export async function catatJawaban(idSoal, { level, indikator, benar, refleksi } = {}) {
+  const existing = await db.soalHasil.get(idSoal);
+  const jumlahPercobaan = (existing?.jumlahPercobaan ?? 0) + 1;
+  let poinDiperoleh = existing?.poinDiperoleh ?? 0;
+  let benarAkhir = existing?.benarAkhir ?? false;
+
+  if (benar && !benarAkhir) {
+    poinDiperoleh = jumlahPercobaan === 1 ? 10 : 5;
+    benarAkhir = true;
+  }
+
+  await db.soalHasil.put({
+    idSoal,
+    level: level ?? existing?.level ?? null,
+    indikator: indikator ?? existing?.indikator ?? null,
+    jumlahPercobaan,
+    poinDiperoleh,
+    benarAkhir,
+    refleksi: refleksi ?? existing?.refleksi ?? null,
+    updatedAt: Date.now(),
+  });
+
+  return { jumlahPercobaan, poinDiperoleh, benarAkhir };
+}
+
+/**
+ * Rekap skor — dipakai layar ending (FASE 11): total + breakdown per indikator.
+ * @returns {Promise<{ totalSkor: number, skorPerIndikator: Record<string, number> }>}
+ */
+export async function getSkorSummary() {
+  const rows = await db.soalHasil.toArray();
+  const skorPerIndikator = Object.fromEntries(SEMUA_INDIKATOR.map((k) => [k, 0]));
+  let totalSkor = 0;
+
+  for (const r of rows) {
+    totalSkor += r.poinDiperoleh ?? 0;
+    if (r.indikator) {
+      skorPerIndikator[r.indikator] = (skorPerIndikator[r.indikator] ?? 0) + (r.poinDiperoleh ?? 0);
+    }
+  }
+
+  return { totalSkor, skorPerIndikator };
+}
+
 // --- Reset ---------------------------------------------------------------
 
-/** Hapus semua progress (opsi "ulangi dari awal" — FASE 9). Settings ikut direset. */
+/** Hapus semua progress (opsi "ulangi dari awal" — FASE 11). Settings ikut direset. */
 export async function resetProgress() {
-  await db.transaction('rw', db.meta, db.levelStatus, db.assessment, async () => {
-    await Promise.all([db.meta.clear(), db.levelStatus.clear(), db.assessment.clear()]);
+  await db.transaction('rw', db.meta, db.levelStatus, db.assessment, db.soalHasil, async () => {
+    await Promise.all([
+      db.meta.clear(),
+      db.levelStatus.clear(),
+      db.assessment.clear(),
+      db.soalHasil.clear(),
+    ]);
   });
 }

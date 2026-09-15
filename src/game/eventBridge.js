@@ -25,11 +25,13 @@ export const EV = {
   SHOW_DIALOG: 'show-dialog',
   SHOW_MATERI: 'show-materi',
   SHOW_FEEDBACK: 'show-feedback',
+  SHOW_QUIZ: 'show-quiz',
   LEVEL_COMPLETE: 'level-complete',
   // UI -> game
   UI_CLOSE_DIALOG: 'ui:close-dialog',
   UI_CLOSE_FEEDBACK: 'ui:close-feedback',
   UI_CLOSE_MATERI: 'ui:close-materi',
+  UI_SUBMIT_QUIZ: 'ui:submit-quiz',
   UI_BACK_TO_MENU: 'ui:back-to-menu',
   UI_TOGGLE_MUTE: 'ui:toggle-mute',
 };

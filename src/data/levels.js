@@ -19,7 +19,8 @@ export const LEVELS = [
     id: 'level1',
     sceneKey: 'Level1',
     judul: 'Misi Pengamatan',
-    indikator: [INDIKATOR.MENGKLASIFIKASIKAN, INDIKATOR.MENAFSIRKAN],
+    // sesuai mapping resmi PROJECT.md §5.1 (revisi brief klien)
+    indikator: [INDIKATOR.MENAFSIRKAN, INDIKATOR.MEMBERI_CONTOH],
   },
   {
     id: 'level2',

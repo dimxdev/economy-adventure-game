@@ -11,6 +11,7 @@
   import DialogBox from './DialogBox.svelte';
   import MateriPanel from './MateriPanel.svelte';
   import FeedbackModal from './FeedbackModal.svelte';
+  import QuizPanel from './QuizPanel.svelte';
 
   onMount(() => {
     /** Scene berganti → atur visibilitas HUD, bersihkan modal sisa. */
@@ -31,12 +32,14 @@
     const onDialog = (d) => (ui.dialog = d);
     const onMateri = (d) => (ui.materi = d);
     const onFeedback = (d) => (ui.feedback = d);
+    const onQuiz = (d) => (ui.quiz = d);
 
     eventBridge.on(EV.SCENE_CHANGED, onScene);
     eventBridge.on(EV.LEVEL_PROGRESS, onProgress);
     eventBridge.on(EV.SHOW_DIALOG, onDialog);
     eventBridge.on(EV.SHOW_MATERI, onMateri);
     eventBridge.on(EV.SHOW_FEEDBACK, onFeedback);
+    eventBridge.on(EV.SHOW_QUIZ, onQuiz);
 
     return () => {
       eventBridge.off(EV.SCENE_CHANGED, onScene);
@@ -44,6 +47,7 @@
       eventBridge.off(EV.SHOW_DIALOG, onDialog);
       eventBridge.off(EV.SHOW_MATERI, onMateri);
       eventBridge.off(EV.SHOW_FEEDBACK, onFeedback);
+      eventBridge.off(EV.SHOW_QUIZ, onQuiz);
     };
   });
 </script>
@@ -52,6 +56,7 @@
   <Hud />
   <DialogBox />
   <MateriPanel />
+  <QuizPanel />
   <FeedbackModal />
 </div>
 

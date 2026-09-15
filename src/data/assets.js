@@ -18,6 +18,12 @@ export const ASSETS = {
     { key: 'logo', path: 'ui/ui_logo_judul.png', w: 620, h: 240, label: 'Economy Adventure' },
     { key: 'zara_idle', path: 'karakter/karakter_zara_idle.png', w: 320, h: 470, label: 'Zara' },
 
+    // --- Tokoh Level 1 (PROJECT.md §3-4) ---
+    { key: 'karakter_paktono', path: 'karakter/karakter_paktono_fullbody.png', w: 300, h: 460, label: 'Pak Tono' },
+    { key: 'karakter_businta', path: 'karakter/karakter_businta_fullbody.png', w: 300, h: 460, label: 'Bu Sinta' },
+    { key: 'karakter_pakrudi', path: 'karakter/karakter_pakrudi_fullbody.png', w: 300, h: 460, label: 'Pak Rudi' },
+    { key: 'karakter_ani', path: 'karakter/karakter_ani_fullbody.png', w: 300, h: 460, label: 'Ani' },
+
     // --- Latar per level ---
     { key: 'bg_level1', path: 'bg/bg_level1_desa.webp', w: 1280, h: 720, kind: 'bg', label: 'Desa Sejahtera' },
     { key: 'bg_level2', path: 'bg/bg_level2_festival.webp', w: 1280, h: 720, kind: 'bg', label: 'Festival Produk Lokal' },
