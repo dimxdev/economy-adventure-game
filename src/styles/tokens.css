@@ -1,0 +1,81 @@
+/*
+ * Design tokens — Economy Adventure
+ * Sumber kebenaran: DESIGN.md §3 (warna), §4 (tipografi), §5 (shape language)
+ * Semua komponen UI Svelte HARUS pakai variabel ini, jangan hardcode hex.
+ */
+
+:root {
+  /* --- Palet inti (DESIGN.md §3) --- */
+  --c-primary: #5cb85c; /* Daun Muda  — aksi positif, kategori PRODUKSI */
+  --c-secondary: #4fa9e0; /* Langit Cerah — kategori KONSUMSI, info */
+  --c-accent: #f5a623; /* Mentari Hangat — kategori DISTRIBUSI, highlight, reward */
+  --c-surface: #fbf6ec; /* Krem Kertas — panel/modal/kartu */
+  --c-ink: #4a3b2a; /* Cokelat Tanah — teks utama & outline */
+  --c-warning: #e4685a; /* Merah Bata Lembut — feedback "belum tepat" */
+
+  /* --- Netral pendukung --- */
+  --c-white: #ffffff;
+  --c-muted: #d8d2c6; /* Abu lembut — disabled, progress kosong */
+
+  /* --- Warna kategori (WAJIB konsisten di semua level, DESIGN.md §3) --- */
+  --c-kategori-produksi: var(--c-primary);
+  --c-kategori-distribusi: var(--c-accent);
+  --c-kategori-konsumsi: var(--c-secondary);
+
+  /* --- Tipografi (DESIGN.md §4) --- */
+  --font-display: 'Fredoka', 'Baloo 2', system-ui, sans-serif;
+  --font-body: 'Nunito', 'Quicksand', system-ui, sans-serif;
+  --leading-body: 1.5;
+
+  /* --- Shape language (DESIGN.md §5) — serba membulat --- */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  /* --- Spacing --- */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+
+  /* --- Shadow lembut untuk elemen "terangkat" --- */
+  --shadow-soft: 0 2px 6px rgba(74, 59, 42, 0.15);
+  --shadow-lift: 0 8px 20px rgba(74, 59, 42, 0.25);
+  --shadow-btn: 0 4px 0 rgba(74, 59, 42, 0.25); /* efek 3D lembut tombol */
+
+  /* --- Warna kanvas game (letterbox area di luar 1280x720) --- */
+  --c-canvas-bg: #2e2a24;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--c-canvas-bg);
+  font-family: var(--font-body);
+  color: var(--c-ink);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#app {
+  position: fixed;
+  inset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

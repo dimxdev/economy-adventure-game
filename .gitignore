@@ -1,0 +1,11 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vercel
+
+# lockfile lain — project ini pakai Bun
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
